@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emotion AI</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<input id="input" placeholder="Type message here">
+<button onclick="sendMessage()">Send</button>
+
+<p id="output"></p>
+<div class="container">
+    <h1>🎤 Emotion AI Assistant</h1>
+    <p class="subtitle">Speak naturally. The agent detects emotional cues and gives supportive feedback.</p>
+
+    <button id="recordBtn">🎙 Start Recording</button>
+    <button id="stopBtn">⏹ Stop</button>
+    <button id="voiceToggleBtn">🔊 Voice: On</button>
+
+    <div class="card">
+        <p><b>Quick text test (fallback demo mode)</b></p>
+        <textarea id="demoText" placeholder="Type how you feel, then click Analyze Text..."></textarea>
+        <button id="analyzeTextBtn">🧠 Analyze Text</button>
+    </div>
+
+    <p id="status">Status: Idle</p>
+    <p id="emoji"></p>
+
+    <div class="card">
+        <p><b>Text:</b> <span id="text"></span></p>
+        <p><b>Final Emotion:</b> <span id="finalEmotion"></span></p>
+        <p><b>Risk Score:</b> <span id="riskScore"></span></p>
+        <p><b>Reason:</b> <span id="reason"></span></p>
+        <p><b>Response:</b> <span id="response"></span></p>
+    </div>
+
+    <div class="card">
+        <p><b>Mood Trend (higher is better)</b></p>
+        <canvas id="moodChart"></canvas>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+async function sendMessage() {
+  const userMessage = document.getElementById("input").value;
+
+  const response = await fetch("http://127.0.0.1:8000/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: userMessage
+    })
+  });
+
+  const data = await response.json();
+
+  document.getElementById("output").innerText = data.response || JSON.stringify(data);
+}
+</script>
+</body>
+</html>
