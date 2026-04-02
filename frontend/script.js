@@ -108,6 +108,32 @@ function renderAnalysis(data) {
     speakResponse(data.response || "");
 }
 
+// analyzeTextBtn.onclick = async () => {
+//     const text = (demoText.value || "").trim();
+//     if (!text) {
+//         status.innerText = "Type some text first.";
+//         return;
+//     }
+
+//     status.innerText = "Analyzing text...";
+//     try {
+//         const res = await fetch("http://127.0.0.1:5000/analyze", {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify({ text })
+//         });
+//         const data = await res.json();
+//         if (!res.ok) {
+//             throw new Error(data.error || "Server error");
+//         }
+//         renderAnalysis(data);
+//         status.innerText = "Done (text mode)";
+//     } catch (error) {
+//         status.innerText = `Error: ${error.message}`;
+//     }
+// };
+
+
 analyzeTextBtn.onclick = async () => {
     const text = (demoText.value || "").trim();
     if (!text) {
@@ -117,21 +143,25 @@ analyzeTextBtn.onclick = async () => {
 
     status.innerText = "Analyzing text...";
     try {
-        const res = await fetch("http://127.0.0.1:8000/analyze", {
+        const res = await fetch("http://127.0.0.1:5000/analyze-text", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text })
         });
+
         const data = await res.json();
+
         if (!res.ok) {
             throw new Error(data.error || "Server error");
         }
+
         renderAnalysis(data);
         status.innerText = "Done (text mode)";
     } catch (error) {
         status.innerText = `Error: ${error.message}`;
     }
 };
+
 
 recordBtn.onclick = async () => {
     try {
